@@ -32,6 +32,7 @@ services:
             - drone
             - drone-runner-docker
             - nexus3
+            - srs
     whitebophir:
         image: lovasoa/wbo:1.5.0
         restart: always
@@ -131,3 +132,16 @@ services:
             - 8082:8082
         volumes:
             - ./data/nexus3:/nexus-data
+    srs:
+        image: ossrs/srs:v4
+        restart: always
+        container_name: srs
+        environment:
+            - CANDIDATE=live.nbaxp.com
+        ports:
+            - 1935:1935
+            - 1985:1985
+            - 8000:8000/udp
+        volumes:
+            - ./conf/srs:/usr/local/srs/conf
+            - ./data/srs:/usr/local/srs/objs/nginx/html/video
